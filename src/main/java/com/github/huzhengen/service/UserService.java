@@ -1,9 +1,13 @@
 package com.github.huzhengen.service;
 
 import com.github.huzhengen.mapper.UserMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
+@Service
+@Component
 public class UserService {
     private UserMapper userMapper;
 
