@@ -1,6 +1,6 @@
 package com.github.huzhengen;
 
-import com.github.huzhengen.service.User;
+import com.github.huzhengen.entity.User;
 import com.github.huzhengen.service.UserService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

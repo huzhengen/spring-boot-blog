@@ -1,10 +1,5 @@
 package com.github.huzhengen.configuration;
 
-import com.github.huzhengen.mapper.UserMapper;
-import com.github.huzhengen.service.OrderService;
-import com.github.huzhengen.service.User;
-import com.github.huzhengen.service.UserService;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

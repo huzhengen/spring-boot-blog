@@ -1,5 +1,6 @@
 package com.github.huzhengen.service;
 
+import com.github.huzhengen.entity.User;
 import com.github.huzhengen.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
