@@ -1,7 +1,5 @@
 package com.github.huzhengen.service;
 
-import com.github.huzhengen.mapper.UserMapper;
-
 import javax.inject.Inject;
 
 public class OrderService {
@@ -12,8 +10,7 @@ public class OrderService {
         this.userService = userService;
     }
 
-    public void placeOrder(Integer userId, String item) {
-        userService.getUserById(userId);
-
-    }
+//    public void placeOrder(Integer userId, String item) {
+//        userService.getUserById(userId);
+//    }
 }
