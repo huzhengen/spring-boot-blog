@@ -1,6 +1,7 @@
 package com.github.huzhengen.controller;
 
 import com.github.huzhengen.entity.User;
+import com.github.huzhengen.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,20 +20,28 @@ import java.util.Map;
 
 @Controller
 public class AuthController {
+    private UserService userService;
     private UserDetailsService userDetailsService;
     private AuthenticationManager authenticationManager;
 
     @Inject
     public AuthController(UserDetailsService userDetailsService,
+                          UserService userService,
                           AuthenticationManager authenticationManager) {
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("/auth")
     @ResponseBody
     public Result auth() {
-        return new Result("ok", "用户没有登录", false);
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userName.contains("anonymous")) {
+            return new Result("ok", "用户没有登录", false);
+        } else {
+            return new Result("ok", null, true, userService.getUserByUsername(userName));
+        }
     }
 
     @PostMapping("/auth/login")
