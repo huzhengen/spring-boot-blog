@@ -1,8 +1,8 @@
 package com.github.huzhengen.controller;
 
+import com.github.huzhengen.entity.Result;
 import com.github.huzhengen.entity.User;
 import com.github.huzhengen.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,9 +37,10 @@ public class AuthController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return new Result("fail", "用户没有登录", false);
+//            return new Result("fail", "用户没有登录", false);
+            return Result.failure("用户没有登录");
         } else {
-            return new Result("ok", null, true, loggedInUser);
+            return Result.success("用户已登录", loggedInUser);
         }
     }
 
@@ -50,13 +51,13 @@ public class AuthController {
         String password = usernameAndPassword.get("password");
 
         if (username == null || password == null) {
-            return new Result("fail", "用户名或密码不能为空", false);
+            return Result.failure("用户名或密码不能为空");
         }
         if (username.length() < 1 || username.length() > 15) {
-            return new Result("fail", "用户名长度需大于1小于15", false);
+            return Result.failure("用户名长度需大于1小于15");
         }
         if (password.length() <= 6) {
-            return new Result("fail", "密码需大于6位", false);
+            return Result.failure("密码需大于6位");
         }
 
         try {
@@ -64,7 +65,7 @@ public class AuthController {
             return new Result("ok", "注册成功", false);
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
-            return new Result("fail", "用户名已注册", false);
+            return Result.failure("用户名已注册");
         }
     }
 
@@ -74,11 +75,11 @@ public class AuthController {
         String username = usernameAndPassword.get("username").toString();
         String password = usernameAndPassword.get("password").toString();
 
-        UserDetails userDetails = null;
+        UserDetails userDetails;
         try {
             userDetails = userService.loadUserByUsername(username);
         } catch (UsernameNotFoundException e) {
-            return new Result("fail", "用户名不存在", false);
+            return Result.failure("用户名不存在");
         }
 
         UsernamePasswordAuthenticationToken token =
@@ -88,9 +89,9 @@ public class AuthController {
             authenticationManager.authenticate(token);
             // Cookie
             SecurityContextHolder.getContext().setAuthentication(token);
-            return new Result("ok", "登录成功", true, userService.getUserByUsername(username));
+            return Result.success("登录成功", userService.getUserByUsername(username));
         } catch (BadCredentialsException e) {
-            return new Result("fail", "密码不正确", false);
+            return Result.failure("密码不正确");
         }
     }
 
@@ -100,44 +101,12 @@ public class AuthController {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         User loggedInUser = userService.getUserByUsername(userName);
         if (loggedInUser == null) {
-            return new Result("fail", "用户没有登录", false);
+            return Result.failure("用户没有登录");
         } else {
             SecurityContextHolder.clearContext();
             return new Result("ok", "注销成功", false);
         }
     }
 
-    private static class Result {
-        String status;
-        String msg;
-        boolean isLogin;
-        Object data;
 
-        public Result(String status, String msg, Boolean isLogin) {
-            this(status, msg, isLogin, null);
-        }
-
-        public Result(String status, String msg, Boolean isLogin, Object data) {
-            this.status = status;
-            this.msg = msg;
-            this.isLogin = isLogin;
-            this.data = data;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public boolean isLogin() {
-            return isLogin;
-        }
-
-        public Object getData() {
-            return data;
-        }
-    }
 }
