@@ -2,6 +2,8 @@ package com.github.huzhengen.controller;
 
 import com.github.huzhengen.entity.User;
 import com.github.huzhengen.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,8 +21,8 @@ import java.util.Map;
 
 @Controller
 public class AuthController {
-    private UserService userService;
-    private AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
     @Inject
     public AuthController(UserService userService,
@@ -53,16 +55,16 @@ public class AuthController {
         if (username.length() < 1 || username.length() > 15) {
             return new Result("fail", "用户名长度需大于1小于15", false);
         }
-        if (password.length() < 6) {
+        if (password.length() <= 6) {
             return new Result("fail", "密码需大于6位", false);
         }
 
-        User user = userService.getUserByUsername(username);
-        if (user == null) {
+        try {
             userService.save(username, password);
             return new Result("ok", "注册成功", false);
-        } else {
-            return new Result("fail", "该用户已注册", false);
+        } catch (DuplicateKeyException e) {
+            e.printStackTrace();
+            return new Result("fail", "用户名已注册", false);
         }
     }
 
