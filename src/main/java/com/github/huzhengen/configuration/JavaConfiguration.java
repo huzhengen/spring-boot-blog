@@ -5,14 +5,4 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JavaConfiguration {
 
-//    @Bean
-//    public OrderService orderService(UserService userService) {
-//        return new OrderService(userService);
-//    }
-//
-//    @Bean
-//    public UserService userService(UserMapper userMapper) {
-//        return new UserService(userMapper);
-//    }
-
 }
