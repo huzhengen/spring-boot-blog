@@ -18,30 +18,30 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <!--            <releases>-->
-            <!--                <enabled>true</enabled>-->
-            <!--            </releases>-->
-            <!--            <snapshots>-->
-            <!--                <enabled>false</enabled>-->
-            <!--            </snapshots>-->
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>aliyun-plugin</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <!--            <releases>-->
-            <!--                <enabled>true</enabled>-->
-            <!--            </releases>-->
-            <!--            <snapshots>-->
-            <!--                <enabled>false</enabled>-->
-            <!--            </snapshots>-->
-        </pluginRepository>
-    </pluginRepositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>aliyun</id>-->
+<!--            <url>https://maven.aliyun.com/repository/public</url>-->
+<!--            &lt;!&ndash;            <releases>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <enabled>true</enabled>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </releases>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <snapshots>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <enabled>false</enabled>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </snapshots>&ndash;&gt;-->
+<!--        </repository>-->
+<!--    </repositories>-->
+<!--    <pluginRepositories>-->
+<!--        <pluginRepository>-->
+<!--            <id>aliyun-plugin</id>-->
+<!--            <url>https://maven.aliyun.com/repository/public</url>-->
+<!--            &lt;!&ndash;            <releases>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <enabled>true</enabled>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </releases>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <snapshots>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <enabled>false</enabled>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </snapshots>&ndash;&gt;-->
+<!--        </pluginRepository>-->
+<!--    </pluginRepositories>-->
 
     <dependencies>
         <dependency>
