@@ -17,12 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,17 +48,14 @@ class AuthControllerTest {
 
     @Test
     void returnNotLoginByDefault() throws Exception {
-        mvc.perform(get("/auth")).andExpect(status().isOk()).andExpect(mvcResult -> {
-            System.out.println(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8));
-            Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("用户没有登录"));
-        });
+        mvc.perform(get("/auth")).andExpect(status().isOk())
+                .andExpect(mvcResult -> Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("用户没有登录")));
     }
 
     @Test
     void testLogin() throws Exception {
-        mvc.perform(get("/auth")).andExpect(status().isOk()).andExpect(mvcResult -> {
-            Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("用户没有登录"));
-        });
+        mvc.perform(get("/auth")).andExpect(status().isOk())
+                .andExpect(mvcResult -> Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("用户没有登录")));
 
         Map<String, String> usernamePassword = new HashMap<>();
         usernamePassword.put("username", "user");
@@ -72,16 +67,15 @@ class AuthControllerTest {
                 .thenReturn(new com.github.huzhengen.entity.User(123, "user", bCryptPasswordEncoder.encode("pass")));
 
 
-        MvcResult response = mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON_UTF8)
+        MvcResult response = mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(usernamePassword)))
                 .andExpect(status().isOk())
-                .andExpect(mvcResult -> Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("登陆成功")))
+                .andExpect(mvcResult -> Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("登录成功")))
                 .andReturn();
 
         HttpSession session = response.getRequest().getSession();
 
-        mvc.perform(get("/auth").session((MockHttpSession) session)).andExpect(status().isOk()).andExpect(mvcResult -> {
-            Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("user"));
-        });
+        mvc.perform(get("/auth").session((MockHttpSession) session)).andExpect(status().isOk())
+                .andExpect(mvcResult -> Assertions.assertTrue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8).contains("user")));
     }
 }
